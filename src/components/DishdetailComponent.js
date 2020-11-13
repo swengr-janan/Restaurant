@@ -18,29 +18,30 @@ class DishDetail extends Component {
     }
   }
 
-  dateConverter(dateISO) {
-    const monthNames = [
-      "Jan",
-      "Feb",
-      "Mar",
-      "Apr",
-      "May",
-      "Jun",
-      "Jul",
-      "Aug",
-      "Sep",
-      "Oct",
-      "Nov",
-      "Dec",
-    ];
+  // dateConverter(dateISO) {
+  //   const monthNames = [
+  //     "Jan",
+  //     "Feb",
+  //     "Mar",
+  //     "Apr",
+  //     "May",
+  //     "Jun",
+  //     "Jul",
+  //     "Aug",
+  //     "Sep",
+  //     "Oct",
+  //     "Nov",
+  //     "Dec",
+  //   ];
 
-    var date = new Date(dateISO);
-    var year = date.getFullYear();
-    var month = date.getMonth();
-    var dt = date.getDate();
+  //   var date = new Date(dateISO);
+  //   var year = date.getFullYear();
+  //   var month = date.getMonth();
+  //   var dt = date.getDate();
 
-    return monthNames[month] + " " + dt + ", " + year;
-  }
+  //   return monthNames[month] + " " + dt + ", " + year;
+  // }
+
   renderComments(comments) {
     if (comments != null) {
       const finalComment = comments.map((comment) => {
@@ -49,7 +50,12 @@ class DishDetail extends Component {
             <ul class="list-unstyled">
               <li>{comment.comment}</li>
               <li>
-                -- {comment.author}, {this.dateConverter(comment.date)}
+                -- {comment.author},{" "}
+                {new Intl.DateTimeFormat("en-US", {
+                  year: "numeric",
+                  month: "short",
+                  day: "2-digit",
+                }).format(new Date(Date.parse(comment.date)))}
               </li>
             </ul>
           </div>
@@ -71,10 +77,12 @@ class DishDetail extends Component {
     const dish = this.props.dish;
     if (dish != null) {
       return (
-        <div className="row">
-          <div className="col-12 col-md-5 m-1">{this.renderDish(dish)}</div>
-          <div className="col-12 col-md-5 m-1">
-            {this.renderComments(dish.comments)}
+        <div className="container">
+          <div className="row">
+            <div className="col-12 col-md-5 m-1">{this.renderDish(dish)}</div>
+            <div className="col-12 col-md-5 m-1">
+              {this.renderComments(dish.comments)}
+            </div>
           </div>
         </div>
       );
