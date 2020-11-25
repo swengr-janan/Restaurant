@@ -46,13 +46,11 @@ class Header extends Component {
     this.toggleModal();
     alert(
       "Username: " +
-        "<br>" +
         this.username.value +
         " Password: " +
-        "<br>" +
         this.password.value +
         " Remember: " +
-        this.remember.value
+        this.remember.checked
     );
   }
 
@@ -142,12 +140,14 @@ class Header extends Component {
                 ></Input>
               </FormGroup>
               <FormGroup check>
-                <Input
-                  type="checkbox"
-                  name="remember"
-                  innerRef={(input) => (this.remember = input)}
-                ></Input>
-                Remember me
+                <Label check>
+                  <Input
+                    type="checkbox"
+                    name="remember"
+                    innerRef={(input) => (this.remember = input)}
+                  />
+                  Remember me
+                </Label>
               </FormGroup>
               <Button type="submit" value="submit" color="primary">
                 Login
