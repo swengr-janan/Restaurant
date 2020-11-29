@@ -8,28 +8,46 @@ import {
   Media,
 } from "reactstrap";
 import { Link } from "react-router-dom";
-import { findByDisplayValue } from "@testing-library/react";
+import { Loading } from "./LoadingComponent";
+import { baseUrl } from "../shared/baseUrl";
+import { Fade, Stagger } from "react-animation-components";
 
-const RenderLeader = ({ leader }) => {
-  return (
-    <div>
-      <Media tag="li">
-        <Media left>
-          <Media object src={leader.image} />
-        </Media>
-        <Media body className="mt-0 ml-5">
-          <Media heading>{leader.name}</Media>
-          <p>{leader.designation}</p>
-          <p>{leader.description}</p>
-        </Media>
-      </Media>
-    </div>
-  );
+const RenderLeader = ({ leader, isLoading, errMess }) => {
+  if (isLoading) {
+    return <Loading />;
+  } else if (errMess) {
+    return <h4>{errMess}</h4>;
+  } else {
+    return (
+      <div>
+        <Stagger in>
+          <Fade in>
+            <Media tag="li">
+              <Media left>
+                <Media object src={baseUrl + leader.image} />
+              </Media>
+              <Media body className="mt-0 ml-5">
+                <Media heading>{leader.name}</Media>
+                <p>{leader.designation}</p>
+                <p>{leader.description}</p>
+              </Media>
+            </Media>
+          </Fade>
+        </Stagger>
+      </div>
+    );
+  }
 };
 
 const About = (props) => {
-  const leaders = props.leaders.map((leader) => {
-    return <RenderLeader leader={leader} />;
+  const leaders = props.leader.map((leader) => {
+    return (
+      <RenderLeader
+        leader={leader}
+        isLoading={leader.leadersLoading}
+        errMess={leader.leadersErrMess}
+      />
+    );
   });
 
   return (
